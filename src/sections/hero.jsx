@@ -1,11 +1,11 @@
 import React from 'react'
-import { ArrowRight ,ShoppingCart} from 'lucide-react'
-import shoeImg from '../assets/Images/New Balance 327 Shoes.jpg';
+import { ArrowLeft ,ShoppingCart} from 'lucide-react'
+import shoeImg from '/Images/New-Balance-327.webp';
 
 const Hero = () => {
 
   return (
-    <section className='relative w-full min-h-[100vh] flex flex-col
+    <section className='relative w-full min-h-screen flex flex-col
     md:flex-row items-center
     justify-between  py-8 px-6 md:px-16 bg-white
     overflow-hidden'>
@@ -28,17 +28,17 @@ const Hero = () => {
             gap-4 justify-center md:justify-start items-center'>
                  <button className='bg-primary text-white px-8 py-4 
                  rounded-full font-bold text-lg flex items-center justify-center w-fit gap-2 hover:bg-dark
-                  min-w-[160px] transition-all cursor-pointer shadow-lg shadow-primary/30
+                  min-w-40 transition-all cursor-pointer shadow-lg shadow-primary/30
                   active:scale-95'>
                      تسوق الان
                      <ShoppingCart size={22}/>
                  </button>
                  <button className='border-2 border-black px-8 py-4 rounded-full
-                  font-bold text-lg flex items-center gap-2 justify-center w-fit min-w-[160px] 
-                  hover:bg-gray-100 transition-all cursor-pointer
-                  active:scale-95'>
+                  font-bold text-lg flex items-center gap-2 justify-center w-fit min-w-40 
+                  hover: hover:border-primary transition-all cursor-pointer
+                  active:scale-95 group'>
+                     <ArrowLeft size={22} className='group-hover:-translate-x-2 group-hover:scale-110 group-hover:text-primary transition-all'/>
                      تصفح العروض
-                     <ArrowRight size={22}/>
                  </button>
             </div>
             </div>

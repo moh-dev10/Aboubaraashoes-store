@@ -4,11 +4,11 @@ import { navLinks } from "../data/navigation";
 
 
 
-const Navbar = ({cartCount}) => {
+const Navbar = ({cartCount, onCartClick}) => {
     const [isOpen,setIsOpen] = useState(false);
 
     return (
-        <nav className="bg-dark text-white p-4 font-cairo 
+        <nav className="bg-dark text-white p-4 font-ibm-arabic 
         sticky top-0 z-50 shadow-md">
             <div className="container mx-auto flex justify-between items-center">
 
@@ -35,7 +35,8 @@ const Navbar = ({cartCount}) => {
                     {/* search icon */}
                     <Search className=" text-white w-4 h-4  cursor-pointer
                      hover:text-primary "/>
-                     <div className="relative cursor-pointer mr-2 border-r border-gray-700 group">
+                     <div  onClick={onCartClick}
+                      className="relative cursor-pointer mr-2 border-r border-gray-700 group">
                         <ShoppingBag className="w-4 h-4 text-white group-hover:text-primary
                          transition-colors  "/>
                         
