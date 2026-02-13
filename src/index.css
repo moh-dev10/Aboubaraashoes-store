@@ -6,6 +6,7 @@
   --color-dark: #1a1a1a;
   --color-accent: #d35400;
 
+  
   /* Font */
 
 --font-ibm-arabic: "IBM Plex Sans Arabic", sans-serif;
@@ -14,4 +15,7 @@
 body{
   font-family:var(--font-ibm-arabic);
   @apply bg-gray-50 text-dark;
+}
+html {
+  scroll-behavior: smooth;
 }

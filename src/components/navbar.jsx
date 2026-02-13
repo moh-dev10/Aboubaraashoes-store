@@ -9,7 +9,7 @@ const Navbar = ({cartCount, onCartClick}) => {
 
     return (
         <nav className="bg-dark text-white p-4 font-ibm-arabic 
-        sticky top-0 z-50 shadow-md">
+        sticky top-0 z-50 shadow-md mb-0" dir="rtl">
             <div className="container mx-auto flex justify-between items-center">
 
                 {/* logo */}
@@ -67,7 +67,7 @@ const Navbar = ({cartCount, onCartClick}) => {
                  'translate-x-full opacity-0'}
                 `}>
 
-                    <ul className="flex flex-col p-8 text-right gap-4">
+                    <ul className="flex flex-col p-8  gap-4 order-2 text-right ">
                         {
                         navLinks.map((link) => (
                             <li key={link.id} className="hover:text-primary cursor-pointer

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Facebook, Instagram, Music2 } from 'lucide-react';
 
-const Footer = () => {
+const Footer = ({ onContactClick }) => {
   return (
     <footer className="bg-gray-800 text-white py-12 px-6">
       <div className="container mx-auto">
@@ -61,12 +61,12 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-primary transition-colors">
-                  وصل حديثاً
+                <a href="#categories" className="text-gray-300 hover:text-primary transition-colors">
+                  الفئات
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-primary transition-colors">
+                <a href="#sales" className="text-gray-300 hover:text-primary transition-colors">
                   تخفيضات
                 </a>
               </li>
@@ -78,23 +78,26 @@ const Footer = () => {
             <h3 className="text-xl font-bold mb-4">خدمة العملاء</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-300 hover:text-primary transition-colors">
+                <button 
+                  onClick={onContactClick}
+                  className="text-gray-300 hover:text-primary transition-colors text-right"
+                >
                   اتصل بنا
+                </button>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-primary transition-colors">
+                  الأسئلة الشائعة
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-300 hover:text-primary transition-colors">
-                  FAQ
+                  سياسة الشحن
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-300 hover:text-primary transition-colors">
-                  Shipping
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-primary transition-colors">
-                  Returns
+                  سياسة الإرجاع
                 </a>
               </li>
             </ul>
@@ -107,8 +110,11 @@ const Footer = () => {
             <p className="text-gray-400">
               دائماً هنا لمساعدتك
             </p>
-            <button className="mt-4 bg-white text-gray-800 px-6 py-3 rounded-full font-bold 
-            hover:bg-primary hover:text-white transition-all">
+            <button 
+              onClick={onContactClick}
+              className="mt-4 bg-white text-gray-800 px-6 py-3 rounded-full font-bold 
+              hover:bg-primary hover:text-white transition-all"
+            >
               اتصل بنا
             </button>
           </div>

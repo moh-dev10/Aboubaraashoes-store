@@ -7,7 +7,7 @@ const Sales = ({ addToCart, onProductClick }) => {
   const saleProducts = [
     {
       id: 101,
-      name: 'جاكيت شمواه أزرق',
+      name:'',
       price: '7,500 DA',
       oldPrice: '9,500 DA',
       discount: '21%',
@@ -16,7 +16,7 @@ const Sales = ({ addToCart, onProductClick }) => {
     },
     {
       id: 102,
-      name: 'سويتر بولو محبوك',
+      name: 'New Balance 574 All Black',
       price: '6,200 DA',
       oldPrice: '7,800 DA',
       discount: '21%',
@@ -25,7 +25,7 @@ const Sales = ({ addToCart, onProductClick }) => {
     },
     {
       id: 103,
-      name: 'بنطال جينز كلاسيكي',
+      name: 'Nike Air Max Grey/White',
       price: '5,800 DA',
       oldPrice: '7,500 DA',
       discount: '23%',
@@ -34,7 +34,7 @@ const Sales = ({ addToCart, onProductClick }) => {
     },
     {
       id: 104,
-      name: 'قميص قطني صيفي',
+      name: 'Air Max 3',
       price: '4,200 DA',
       oldPrice: '6,000 DA',
       discount: '30%',
@@ -74,7 +74,7 @@ const Sales = ({ addToCart, onProductClick }) => {
           {saleProducts.map((product) => (
             <div 
               key={product.id} 
-              className="group relative flex flex-col bg-white rounded-2xl p-4 
+              className="group relative flex flex-col bg-white rounded-2xl 
               transition-all hover:shadow-xl hover:-translate-y-2 ease-in-out duration-300 
               border border-transparent hover:border-red-100"
             >
@@ -87,13 +87,13 @@ const Sales = ({ addToCart, onProductClick }) => {
               {/* Product Image */}
               <div 
                 onClick={() => onProductClick(product)}
-                className="relative h-64 w-full mb-4 overflow-hidden rounded-2xl bg-white 
+                className="relative h-64 md:h-80 w-full mb-4 overflow-hidden rounded-t-2xl bg-white 
                 flex justify-center items-center cursor-pointer"
               >
                 <img 
                   src={getImageUrl(product.imageName)} 
                   alt={product.name} 
-                  className="w-full h-full object-cover transition-transform duration-500 
+                  className="w-full h-full  object-cover transition-transform duration-500 
                   group-hover:scale-110 group-hover:rotate-3"
                 />
               </div>
@@ -102,14 +102,14 @@ const Sales = ({ addToCart, onProductClick }) => {
               <div className="text-right flex-1 flex flex-col">
                 <h3 
                   onClick={() => onProductClick(product)}
-                  className="text-lg min-h-10 line-clamp-2 font-bold text-dark mb-2 
+                  className="text-lg min-h-10 line-clamp-2 font-bold text-dark mb-2 mx-2 
                   cursor-pointer hover:text-red-600 transition-colors"
                 >
                   {product.name}
                 </h3>
 
                 {/* Color Options */}
-                <div className="flex gap-2 mb-3 justify-end">
+                <div className="flex gap-2 mb-3 mx-2 justify-end">
                   {product.colors.map((color, index) => (
                     <div
                       key={index}
@@ -120,7 +120,7 @@ const Sales = ({ addToCart, onProductClick }) => {
                 </div>
 
                 {/* Price Section */}
-                <div className="flex items-center justify-end gap-3 mb-4 mt-auto">
+                <div className="flex items-center justify-end gap-3 mb-4 mt-auto mx-2">
                   <span className="text-gray-400 line-through text-sm">{product.oldPrice}</span>
                   <span className="text-red-600 font-black text-xl">{product.price}</span>
                 </div>

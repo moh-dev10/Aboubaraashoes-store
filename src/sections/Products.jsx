@@ -7,27 +7,50 @@ const products = [
     id: 1,
     name: "Nike Waffle One",
     price: "18,500 DA",
-    imageName: "download (30).webp"
+    imageName: "download (30).webp",
+    sizes: [39, 40, 41, 42, 43, 44],
   },
   {
     id: 2,
     name: "New-Balance-327 - Triple Black",
     price: "22,000 DA",
-    imageName: "download-(27).webp"
+    imageName: "download-(27).webp",
+    imageName1:"New-Balance-327.webp",
+    colors: [
+      { name: 'Black', code: '#000000' },
+      { name: 'white', code: '#6B7280' }
+    ],
+    sizes: [39, 40, 41, 42, 43, 44],
   },
   {
     id: 3,
     name: "Nike M2K Tekno",
     price: "19,500 DA",
-    imageName: "download-(32).webp"
+    imageName: "download-(32).webp",
+    imageName1:"download (31).jpg",
+    imageName2:"Nike.jpg",
+    colors: [
+      { name: 'Black', code: '#000000' },
+      { name: 'White', code: '#FFFFFF' },
+      { name: 'Grey', code: '#6B7280' }
+    ],
+    sizes: [39, 40, 41, 42, 43, 44],
+
   },
   {
     id: 4,
     name: "Nike Air Max 1",
     price: "24,000 DA",
-    imageName: "Nike-air-max.webp"
-  }
-];
+    imageName: "Nike-air-max.webp",
+    imageName1:"download (33).jpg",
+    colors: [
+        { name: 'Black', code: '#000000' },
+        { name: 'Grey', code: '#6B7280' }
+      ],
+      sizes: [40, 41, 42, 43, 44],
+    }
+  ]
+  
 
 
 
@@ -58,9 +81,18 @@ const Products = ({ addToCart, onProductClick }) => {
                 <img 
                   src={getImageUrl(product.imageName)} 
                   alt={product.name} 
-                  className="w-full h-full object-cover transition-transform 
-                  duration-500 rounded-t-xl hover:scale-102 group "
+                  className=" w-full h-full object-cover transition-transform 
+                  duration-500 rounded-t-xl hover:scale-102 group"
                 />
+                <button 
+                  onClick={() => addToCart(product)}
+                  className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-40 opacity-0  bg-dark
+                 text-white py-2 px-4 rounded-xl font-bold flex items-center justify-center gap-2 whitespace-nowrap  group-hover:translate-y-0 group-hover:opacity-100 hover:bg-primary  
+                  active:scale-95 cursor-pointer transition-transform ease-in-out duration-500"
+                >
+                  <ShoppingCart size={20} />
+                  أضف للسلة
+                </button>
               </div>
 
               {/* تفاصيل المنتج */}
@@ -79,15 +111,7 @@ const Products = ({ addToCart, onProductClick }) => {
                  className="text-primary font-black mt-auto text-sm mb-4 px-2 text-right cursor-pointer">
                   {product.price}</p>
                 
-                <button 
-                  onClick={() => addToCart(product)}
-                  className="w-full bg-dark text-white py-3 rounded-xl font-bold 
-                  flex items-center justify-center gap-2 hover:bg-primary transition-colors 
-                  active:scale-95 cursor-pointer"
-                >
-                  <ShoppingCart size={20} />
-                  أضف للسلة
-                </button>
+                
                 </div>
               </div>
             </div>

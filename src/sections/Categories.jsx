@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { getImageUrl } from '../utilies';
 
-const Categories = () => {
+const Categories = ({ onCategoryClick }) => {
   // Reference to the scrollable container
   const scrollContainerRef = useRef(null);
 
@@ -11,56 +12,64 @@ const Categories = () => {
       id: 1,
       name: 'أحذية رجالية',
       nameEnglish: 'Men Shoes',
-      image: './Images/download (33).jpg',
+      slug: 'men-shoes',
+      image: '../../public/Images/download (20).jpg',
       itemCount: 45
     },
     {
       id: 2,
       name: 'أحذية نسائية',
       nameEnglish: 'Women Shoes',
-      image: './Images/download (22).jpg',
+      slug: 'women-shoes',
+      image: '../../public/Images/download (22).jpg',
       itemCount: 38
     },
-    // {
-    //   id: 3,
-    //   name: 'أحذية أطفال',
-    //   nameEnglish: 'Kids Shoes',
-    //   image: './Images/',
-    //   itemCount: 28
-    // },
+    {
+      id: 3,
+      name: 'أحذية أطفال',
+      nameEnglish: 'Kids Shoes',
+      slug: 'kids-shoes',
+      image: '../../public/Images/download (23).jpg',
+      itemCount: 28
+    },
     {
       id: 4,
       name: 'أحذية رياضية',
       nameEnglish: 'Sport Shoes',
-      image: './Images/download-(32).webp',
+      slug: 'sport-shoes',
+      image: '../../public/Images/download (30).webp',
       itemCount: 52
     },
-    // {
-    //   id: 5,
-    //   name: 'أحذية كاجوال',
-    //   nameEnglish: 'Casual Shoes',
-    //   image: '',
-    //   itemCount: 34
-    // },
-    // {
-    //   id: 6,
-    //   name: 'أحذية رسمية',
-    //   nameEnglish: 'Formal Shoes',
-    //   image: '',
-    //   itemCount: 24
-    // },
-    // {
-    //   id: 7,
-    //   name: 'أحذية شتوية',
-    //   nameEnglish: 'Winter Boots',
-    //   image: './Images/download-(32).webp',
-    //   itemCount: 19
-    // },
+    {
+      id: 5,
+      name: 'أحذية كاجوال',
+      nameEnglish: 'Casual Shoes',
+      slug: 'casual-shoes',
+      image: '../../public/Images/download (31).jpg',
+      itemCount: 34
+    },
+    {
+      id: 6,
+      name: 'أحذية رسمية',
+      nameEnglish: 'Formal Shoes',
+      slug: 'formal-shoes',
+      image: '../../public/Images/download (35).jpg',
+      itemCount: 24
+    },
+    {
+      id: 7,
+      name: 'أحذية شتوية',
+      nameEnglish: 'Winter Boots',
+      slug: 'winter-boots',
+      image: '../../public/Images/download (38).jpg',
+      itemCount: 19
+    },
     {
       id: 8,
       name: 'صنادل وشباشب',
       nameEnglish: 'Sandals & Slippers',
-      image: './Images/download (34).jpg',
+      slug: 'sandals-slippers',
+      image: '../../public/Images/download (40).jpg',
       itemCount: 31
     }
   ];
@@ -86,6 +95,16 @@ const Categories = () => {
         left: scrollAmount,
         behavior: 'smooth'
       });
+    }
+  };
+
+  /**
+   * Handle category click
+   * @param {object} category - Selected category
+   */
+  const handleCategoryClick = (category) => {
+    if (onCategoryClick) {
+      onCategoryClick(category);
     }
   };
 
@@ -138,6 +157,7 @@ const Categories = () => {
               <div
                 key={category.id}
                 className="flex-shrink-0 w-72 group cursor-pointer"
+                onClick={() => handleCategoryClick(category)}
               >
                 {/* Category Card */}
                 <div className="relative h-80 rounded-3xl overflow-hidden shadow-lg 
@@ -145,7 +165,7 @@ const Categories = () => {
                 group-hover:-translate-y-2">
                   {/* Category Image */}
                   <img
-                    src={category.image}
+                    src={getImageUrl(category.image)}
                     alt={category.name}
                     className="w-full h-full object-cover group-hover:scale-110 
                     transition-transform duration-700 ease-out"

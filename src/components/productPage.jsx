@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Heart, Share2, ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { ShoppingCart, Heart, Share2, ChevronLeft, ChevronRight, Star, Zap } from 'lucide-react';
 import { getImageUrl } from '../utilies';
 
-const ProductPage = ({ product, onAddToCart,onCheckout, onClose }) => {
+const ProductPage = ({ product, onAddToCart, onClose, onBuyNow }) => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -29,8 +29,28 @@ const ProductPage = ({ product, onAddToCart,onCheckout, onClose }) => {
       quantity: quantity
     });
     
-    // Optional: close the product page after adding to cart
-    // onClose();
+    // Show success message (optional)
+    alert('تم إضافة المنتج إلى السلة بنجاح! ✓');
+  };
+
+  // Handle Buy Now - goes directly to checkout
+  const handleBuyNow = () => {
+    if (!selectedSize) {
+      alert('الرجاء اختيار المقاس');
+      return;
+    }
+    
+    // Add product to cart
+    onAddToCart({
+      ...product,
+      size: selectedSize,
+      quantity: quantity
+    });
+    
+    // Trigger buy now action (goes to checkout)
+    if (onBuyNow) {
+      onBuyNow();
+    }
   };
 
   const nextImage = () => {
@@ -250,26 +270,30 @@ const ProductPage = ({ product, onAddToCart,onCheckout, onClose }) => {
               </ul>
             </div>
 
-            {/* Add to Cart Button */}
-            <button
-              onClick={handleAddToCart}
-              className="w-full bg-gray-500 text-white py-2 rounded-xl font-bold 
-              flex items-center justify-center gap-2 hover:bg-primary transition-all 
-              active:scale-95 text-lg shadow-lg hover:shadow-xl"
-            >
-              <ShoppingCart size={24} />
-              أضف إلى السلة
-            </button>
-            <button
-              onClick={() => {
-                if(!selectedSize) return alert("الرجاء اختيار المقاس");
-                onCheckout({...product, size: selectedSize, quantity: quantity });              }}
-              className="w-full bg-gray-200 text-primary py-2 rounded-xl font-bold 
-              flex items-center justify-center gap-3 hover:bg-primary hover:text-white transition-all 
-              active:scale-95 text-lg shadow-lg hover:shadow-xl"
-            >
-              اشترِ الآن
-            </button>
+            {/* Action Buttons - Buy Now + Add to Cart */}
+            <div className="space-y-3">
+              {/* Buy Now Button - Goes directly to checkout */}
+              <button
+                onClick={handleBuyNow}
+                className="w-full bg-primary text-white py-4 rounded-xl font-bold 
+                flex items-center justify-center gap-3 hover:bg-primary/90 transition-all 
+                active:scale-95 text-lg shadow-lg hover:shadow-xl"
+              >
+                <Zap size={24} fill="white" />
+                اشتري الآن
+              </button>
+
+              {/* Add to Cart Button */}
+              <button
+                onClick={handleAddToCart}
+                className="w-full bg-dark text-white py-4 rounded-xl font-bold 
+                flex items-center justify-center gap-3 hover:bg-gray-700 transition-all 
+                active:scale-95 text-lg shadow-lg hover:shadow-xl"
+              >
+                <ShoppingCart size={24} />
+                أضف إلى السلة
+              </button>
+            </div>
           </div>
         </div>
       </div>

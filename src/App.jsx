@@ -11,6 +11,8 @@ import Categories from "./sections/Categories"
 import Sales from "./sections/Sales"
 import Reviews from "./sections/Reviews"
 import Footer from "./components/Footer"
+import ContactUs from "./components/ContactUs"
+import CategoryProducts from "./components/CategoryProducts"
 
 
 
@@ -38,6 +40,12 @@ function App() {
   // Order confirmation data after successful checkout
   const [orderData, setOrderData] = useState(null);
 
+  // Contact Us page state
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
+  // Selected category for filtering
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   // ============================================
   // CART FUNCTIONS
   // ============================================
@@ -48,7 +56,7 @@ function App() {
    * @param {number} newQuantity - New quantity value
    */
   const updateQuantity = (productId, newQuantity) => {
-    if(newQuantity < 1) return; // Don't allow quantity less than 1
+    if(newQuantity < 1) return;
 
     setCartItems(prevItems =>
       prevItems.map(item =>
@@ -69,7 +77,6 @@ function App() {
 
   /**
    * Save cart to localStorage whenever it changes
-   * This ensures cart persists even if user refreshes the page
    */
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -78,14 +85,10 @@ function App() {
   
   /**
    * Add product to cart
-   * If product already exists (same id and size), increment quantity
-   * If product doesn't exist, add as new item
    * @param {object} product - Product object to add to cart
    */
   const addToCart = (product) => {
     setCartItems(prevItems => {
-      // Check if product already exists in cart
-      // Match by both id AND size (if size exists)
       const existingItem = prevItems.find(item => {
         if (product.size) {
           return item.id === product.id && item.size === product.size;
@@ -94,26 +97,21 @@ function App() {
       });
       
       if (existingItem) {
-        // Product exists - increment quantity
         return prevItems.map(item => {
           if (product.size) {
-            // If product has size, match both id and size
             return (item.id === product.id && item.size === product.size)
               ? { ...item, quantity: (item.quantity || 1) + (product.quantity || 1) }
               : item;
           }
-          // If no size, just match by id
           return item.id === product.id
             ? { ...item, quantity: (item.quantity || 1) + (product.quantity || 1) }
             : item;
         });
       } else {
-        // Product doesn't exist - add new item
         return [...prevItems, { ...product, quantity: product.quantity || 1 }];
       }
     });
     
-    // Optional: Show success message (you can add toast notification here)
     console.log('Added to cart:', product);
   };
 
@@ -123,7 +121,6 @@ function App() {
 
   /**
    * Open product detail page
-   * @param {object} product - Product to display
    */
   const handleProductClick = (product) => {
     setSelectedProduct(product);
@@ -138,12 +135,20 @@ function App() {
 
   /**
    * Open checkout page
-   * Only proceed if cart has items
    */
   const handleCheckout = () => {
     if (cartItems.length === 0) return;
-    setIsCartOpen(false);  // Close cart drawer
-    setIsCheckoutOpen(true); // Open checkout page
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
+  };
+
+  /**
+   * Handle Buy Now - Goes directly to checkout
+   */
+  const handleBuyNow = () => {
+    setSelectedProduct(null);
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
   };
 
   /**
@@ -155,23 +160,48 @@ function App() {
 
   /**
    * Handle order confirmation
-   * Called when user completes checkout form
-   * @param {object} orderInfo - Order details from checkout form
    */
   const handleConfirmOrder = (orderInfo) => {
-    setOrderData(orderInfo);      // Save order data
-    setIsCheckoutOpen(false);     // Close checkout
-    setCartItems([]);             // Clear cart
-    localStorage.removeItem('cart'); // Clear cart from localStorage
+    setOrderData(orderInfo);
+    setIsCheckoutOpen(false);
+    setCartItems([]);
+    localStorage.removeItem('cart');
   };
 
   /**
    * Return to home from thank you page
-   * Resets order data and scrolls to top
    */
   const handleReturnHome = () => {
     setOrderData(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  /**
+   * Open Contact Us page
+   */
+  const handleContactClick = () => {
+    setIsContactOpen(true);
+  };
+
+  /**
+   * Close Contact Us page
+   */
+  const closeContactUs = () => {
+    setIsContactOpen(false);
+  };
+
+  /**
+   * Handle category click - Show products for that category
+   */
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
+
+  /**
+   * Close category products page
+   */
+  const closeCategoryProducts = () => {
+    setSelectedCategory(null);
   };
 
   // ============================================
@@ -180,25 +210,13 @@ function App() {
 
   return (
     <>
-      {/* ========================================
-          NAVIGATION BAR
-          - Always visible at top
-          - Shows cart count badge
-          - Opens cart drawer on click
-      ======================================== */}
+      {/* Navbar - Always visible */}
       <Navbar 
         cartCount={cartItems.length}
         onCartClick={() => setIsCartOpen(true)}
       />
       
-      {/* ========================================
-          CART DRAWER (SIDEBAR)
-          - Slides in from right
-          - Shows all cart items
-          - Can update quantities
-          - Can remove items
-          - Has checkout button
-      ======================================== */}
+      {/* Cart Drawer */}
       <Cartdrawer 
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -208,31 +226,17 @@ function App() {
         onCheckout={handleCheckout}
       />
       
-      {/* ========================================
-          PRODUCT DETAIL PAGE (MODAL)
-          - Full screen overlay
-          - Shows when user clicks on a product
-          - Has image gallery
-          - Size selection
-          - Quantity selector
-          - Add to cart with size
-      ======================================== */}
+      {/* Product Detail Page */}
       {selectedProduct && (
         <ProductPage 
           product={selectedProduct}
           onAddToCart={addToCart}
           onClose={closeProductPage}
+          onBuyNow={handleBuyNow}
         />
       )}
 
-      {/* ========================================
-          CHECKOUT PAGE (FULL SCREEN)
-          - Customer information form
-          - Wilaya and commune selection
-          - Delivery type selection
-          - Shipping price calculation
-          - Order summary
-      ======================================== */}
+      {/* Checkout Page */}
       {isCheckoutOpen && (
         <Checkout 
           cartItems={cartItems}
@@ -241,78 +245,47 @@ function App() {
         />
       )}
 
-      {/* ========================================
-          THANK YOU PAGE (ORDER CONFIRMATION)
-          - Shows after successful order
-          - Displays order number
-          - Shows customer details
-          - Shows ordered items
-          - Return to home button
-      ======================================== */}
+      {/* Thank You Page */}
       {orderData && (
         <ThankYou 
           orderData={orderData}
           onReturnHome={handleReturnHome}
         />
       )}
+
+      {/* Contact Us Page */}
+      {isContactOpen && (
+        <ContactUs 
+          onClose={closeContactUs}
+        />
+      )}
+
+      {/* Category Products Page */}
+      {selectedCategory && (
+        <CategoryProducts 
+          category={selectedCategory}
+          onClose={closeCategoryProducts}
+          addToCart={addToCart}
+          onProductClick={handleProductClick}
+        />
+      )}
       
-      {/* ========================================
-          MAIN HOMEPAGE SECTIONS
-          - Only shown when no modal is open
-          - Includes all homepage sections
-      ======================================== */}
-      {!selectedProduct && !isCheckoutOpen && !orderData && (
+      {/* Main Homepage */}
+      {!selectedProduct && !isCheckoutOpen && !orderData && !isContactOpen && !selectedCategory && (
         <>
-          {/* Hero Section - Large banner with main CTA */}
           <Hero/>
-          
-          {/* Features Section - 3 key features (Fast Shipping, Quality, Support) */}
           <Features/>
-          
-          {/* Categories Section - Shop by category carousel
-              - Shows different product categories
-              - Carousel with navigation arrows
-              - Click to filter products by category
-          */}
-          <Categories/>
-          
-          {/* Products Section - Main product grid
-              - Shows all available products
-              - Click image/title to open product detail
-              - Quick add to cart button
-          */}
+          <Categories onCategoryClick={handleCategoryClick} />
           <Products 
             addToCart={addToCart}
             onProductClick={handleProductClick}
           />
-          
-          {/* Sales Section - Discounted products
-              - Shows products with sale badges
-              - Displays old price with strikethrough
-              - Shows discount percentage
-              - Red theme to highlight deals
-          */}
           <Sales
             addToCart={addToCart}
             onProductClick={handleProductClick}
           />
-          
-          {/* Reviews Section - Customer testimonials carousel
-              - Auto-scrolls every 5 seconds
-              - Manual navigation with arrows
-              - Shows customer name, location, rating
-              - Displays review text
-          */}
           <Reviews/>
-          
-          {/* Footer Section - Site footer
-              - Social media links (Facebook, Instagram, TikTok)
-              - Quick links navigation
-              - Customer service links
-              - Contact button
-              - Copyright notice
-          */}
-          <Footer/>
+          <Footer onContactClick={handleContactClick} />
         </>
       )}
     </>
