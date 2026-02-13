@@ -14,12 +14,12 @@ const Navbar = ({cartCount, onCartClick}) => {
 
                 {/* logo */}
                 <div className="text-xl font-bold text-primary 
-                tracking-tighter cursor-pointer">AbouBaraa<span className="text-white">Shoes</span>
+                tracking-tighter cursor-pointer order-3">AbouBaraa<span className="text-white">Shoes</span>
                 </div>
 
                 {/* Desktop Menu */}
 
-                <ul className="hidden md:flex gap-8 font-semibold items-center">
+                <ul className="hidden md:flex gap-8 font-semibold items-center order-2">
                     {
                         navLinks.map((link) => (
                             <li key={link.id} className="hover:text-primary cursor-pointer
@@ -32,13 +32,12 @@ const Navbar = ({cartCount, onCartClick}) => {
 
                 <div className="flex items-center gap-4 
                  pr-4 ">
-                    {/* search icon */}
-                    <Search className=" text-white w-4 h-4  cursor-pointer
-                     hover:text-primary "/>
+                    
                      <div  onClick={onCartClick}
-                      className="relative cursor-pointer mr-2 border-r border-gray-700 group">
-                        <ShoppingBag className="w-4 h-4 text-white group-hover:text-primary
-                         transition-colors  "/>
+                      className="relative cursor-pointer mr-2 p-1 rounded-sm border-r border-gray-700 group order-3
+                       hover:bg-primary  transition-colors duration-300">
+                        <ShoppingBag  size={20} className=" text-white group-hover:
+                         transition-colors "/>
                         
                         {/* Always show the badge, but only show content when > 0 */}
                         <span className="absolute -top-2 -right-2 bg-primary text-[10px] min-w-4 h-4 
@@ -48,14 +47,15 @@ const Navbar = ({cartCount, onCartClick}) => {
                           {cartCount > 0 ? cartCount : '0'}
                         </span>
                     </div>
-                    {/* X/Menu Toggle */}
+
+                    {/* X / Menu Toggle */}
 
                 <button 
                 onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden text-white hover:text-primary
-                transition-transform active:scale-90
+                className="md:hidden p-1 rounded-sm text-white hover:bg-primary
+                transition-colors duration-300 active:scale-90
                  focus:outline-none cursor-pointer">
-                    {isOpen? <X size={22}/>:<MenuIcon size={22}/>}
+                    {isOpen? <X size={20}/>:<MenuIcon size={20}/>}
                  </button>
                 </div>
 

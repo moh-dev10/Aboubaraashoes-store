@@ -1,3 +1,4 @@
  export const getImageUrl = (imageName) => {
-    return `/Images/${imageName}`;
+    const baseUrl = import.meta.env.BASE_URL;
+    return `${baseUrl}/Images/${imageName}`;
 };

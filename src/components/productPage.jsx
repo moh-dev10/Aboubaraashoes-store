@@ -253,8 +253,8 @@ const ProductPage = ({ product, onAddToCart,onCheckout, onClose }) => {
             {/* Add to Cart Button */}
             <button
               onClick={handleAddToCart}
-              className="w-full bg-dark text-white py-4 rounded-xl font-bold 
-              flex items-center justify-center gap-3 hover:bg-primary transition-all 
+              className="w-full bg-gray-500 text-white py-2 rounded-xl font-bold 
+              flex items-center justify-center gap-2 hover:bg-primary transition-all 
               active:scale-95 text-lg shadow-lg hover:shadow-xl"
             >
               <ShoppingCart size={24} />
@@ -264,12 +264,11 @@ const ProductPage = ({ product, onAddToCart,onCheckout, onClose }) => {
               onClick={() => {
                 if(!selectedSize) return alert("الرجاء اختيار المقاس");
                 onCheckout({...product, size: selectedSize, quantity: quantity });              }}
-              className="w-full bg-dark text-white py-4 rounded-xl font-bold 
-              flex items-center justify-center gap-3 hover:bg-primary transition-all 
+              className="w-full bg-gray-200 text-primary py-2 rounded-xl font-bold 
+              flex items-center justify-center gap-3 hover:bg-primary hover:text-white transition-all 
               active:scale-95 text-lg shadow-lg hover:shadow-xl"
             >
-              <ShoppingCart size={24} />
-              شراء
+              اشترِ الآن
             </button>
           </div>
         </div>

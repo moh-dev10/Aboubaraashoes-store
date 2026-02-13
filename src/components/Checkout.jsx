@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShoppingBag, MapPin, Phone, User, CreditCard, Truck, Home } from 'lucide-react';
 import { getImageUrl } from '../utilies';
 
@@ -12,8 +12,65 @@ const Checkout = ({ cartItems, onClose, onConfirmOrder }) => {
   });
 
   const [errors, setErrors] = useState({});
+  const [deliveryFee, setDeliveryFee] = useState(0);
 
-  // Wilayas and their communes
+  // Shipping prices for each wilaya (home delivery / desk delivery)
+  const shippingPrices = {
+    'الجزائر': { home: 500, office: 400 },
+    'وهران': { home: 600, office: 500 },
+    'قسنطينة': { home: 700, office: 600 },
+    'سطيف': { home: 650, office: 550 },
+    'عنابة': { home: 700, office: 600 },
+    'بليدة': { home: 500, office: 400 },
+    'باتنة': { home: 700, office: 600 },
+    'تيزي وزو': { home: 600, office: 500 },
+    'بجاية': { home: 650, office: 550 },
+    'تلمسان': { home: 700, office: 600 },
+    'تيارت': { home: 800, office: 700 },
+    'أدرار': { home: 1200, office: 1000 },
+    'الشلف': { home: 650, office: 550 },
+    'الأغواط': { home: 800, office: 700 },
+    'أم البواقي': { home: 700, office: 600 },
+    'بسكرة': { home: 750, office: 650 },
+    'بشار': { home: 1000, office: 900 },
+    'البويرة': { home: 600, office: 500 },
+    'تمنراست': { home: 1500, office: 1300 },
+    'تبسة': { home: 800, office: 700 },
+    'تندوف': { home: 1400, office: 1200 },
+    'تيسمسيلت': { home: 750, office: 650 },
+    'الوادي': { home: 900, office: 800 },
+    'خنشلة': { home: 800, office: 700 },
+    'سوق أهراس': { home: 750, office: 650 },
+    'تيبازة': { home: 550, office: 450 },
+    'ميلة': { home: 700, office: 600 },
+    'عين الدفلى': { home: 650, office: 550 },
+    'النعامة': { home: 900, office: 800 },
+    'عين تموشنت': { home: 700, office: 600 },
+    'غرداية': { home: 900, office: 800 },
+    'غليزان': { home: 700, office: 600 },
+    'جيجل': { home: 750, office: 650 },
+    'المسيلة': { home: 750, office: 650 },
+    'مستغانم': { home: 700, office: 600 },
+    'معسكر': { home: 700, office: 600 },
+    'ورقلة': { home: 950, office: 850 },
+    'البيض': { home: 900, office: 800 },
+    'إيليزي': { home: 1600, office: 1400 },
+    'برج بوعريريج': { home: 650, office: 550 },
+    'بومرداس': { home: 550, office: 450 },
+    'الطارف': { home: 750, office: 650 },
+    'تيميمون': { home: 1300, office: 1100 },
+    'برج باجي مختار': { home: 1500, office: 1300 },
+    'أولاد جلال': { home: 900, office: 800 },
+    'بني عباس': { home: 1200, office: 1000 },
+    'عين صالح': { home: 1300, office: 1100 },
+    'عين قزام': { home: 1400, office: 1200 },
+    'تقرت': { home: 900, office: 800 },
+    'جانت': { home: 1600, office: 1400 },
+    'المغير': { home: 950, office: 850 },
+    'المنيعة': { home: 1000, office: 900 }
+  };
+
+  // Wilayas and their communes (keeping the same structure as before)
   const wilayasWithCommunes = {
     'الجزائر': ['باب الواد', 'القصبة', 'سيدي امحمد', 'الحراش', 'برج الكيفان', 'بئر مراد رايس', 'الأبيار', 'بوزريعة', 'بئر خادم', 'المحمدية', 'حسين داي', 'القبة', 'باش جراح', 'الدار البيضاء', 'رويبة', 'الرويبة', 'الرغاية', 'باب الزوار', 'براقي', 'سطاوالي', 'زرالدة', 'شراقة', 'درارية', 'سوسطارة', 'تسالة المرجة', 'بني مراد', 'الأخضرية', 'خرايسية', 'عين طاية', 'حمام ملوان', 'بئر توتة', 'سيدي موسى', 'الحمامات', 'البرواقية', 'بوغرة', 'برج الإمام', 'عين البنيان', 'حمام ملوان', 'الدويرة', 'الكاليتوس', 'وادي السمار', 'سيدي عبد الله', 'الولجة', 'تسالة المرجة', 'العاشور', 'المرادية', 'بوفاريك', 'سيدي يحيى', 'المرسى'],
     'وهران': ['وهران', 'السانية', 'بئر الجير', 'مرسى الكبير', 'قديل', 'بوتليليس', 'عين الترك', 'المنصورة', 'بطيوة', 'مسرغين', 'الكرمة', 'السيق', 'سيدي الشامي', 'الأنصار', 'عين البية', 'العنصر', 'عين الكرمة', 'بني صاف', 'العامرية', 'وادي تليلات', 'سيدي بن يبقى', 'بن فريحة', 'حاسي البونية', 'حاسي مفسوخ', 'بوسفر', 'بن عبد المالك رمضان'],
@@ -69,14 +126,26 @@ const Checkout = ({ cartItems, onClose, onConfirmOrder }) => {
     'المنيعة': ['المنيعة', 'حاسي قارة', 'حاسي فحل', 'منصورة']
   };
 
-  // Calculate totals
+  // Calculate subtotal
   const subtotal = cartItems.reduce((acc, item) => {
     const price = parseInt(item.price.replace(/\D/g, ''));
     return acc + (price * (item.quantity || 1));
   }, 0);
 
-  const deliveryFee = 0; // Free delivery
+  // Calculate total
   const total = subtotal + deliveryFee;
+
+  // Update delivery fee when wilaya or delivery type changes
+  useEffect(() => {
+    if (formData.wilaya && shippingPrices[formData.wilaya]) {
+      const price = formData.deliveryType === 'home' 
+        ? shippingPrices[formData.wilaya].home 
+        : shippingPrices[formData.wilaya].office;
+      setDeliveryFee(price);
+    } else {
+      setDeliveryFee(0);
+    }
+  }, [formData.wilaya, formData.deliveryType]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -286,7 +355,12 @@ const Checkout = ({ cartItems, onClose, onConfirmOrder }) => {
                   >
                     <div className="flex flex-col items-center gap-2">
                       <MapPin size={24} className={formData.deliveryType === 'office' ? 'text-primary' : 'text-gray-600'} />
-                      <span className="font-bold">استلام من المكتب</span>
+                      <span className="font-bold text-sm">استلام من المكتب</span>
+                      {formData.wilaya && shippingPrices[formData.wilaya] && (
+                        <span className="text-primary font-black text-lg">
+                          {shippingPrices[formData.wilaya].office} DA
+                        </span>
+                      )}
                     </div>
                   </button>
 
@@ -301,10 +375,29 @@ const Checkout = ({ cartItems, onClose, onConfirmOrder }) => {
                   >
                     <div className="flex flex-col items-center gap-2">
                       <Home size={24} className={formData.deliveryType === 'home' ? 'text-primary' : 'text-gray-600'} />
-                      <span className="font-bold">توصيل للمنزل</span>
+                      <span className="font-bold text-sm">توصيل للمنزل</span>
+                      {formData.wilaya && shippingPrices[formData.wilaya] && (
+                        <span className="text-primary font-black text-lg">
+                          {shippingPrices[formData.wilaya].home} DA
+                        </span>
+                      )}
                     </div>
                   </button>
                 </div>
+
+                {/* Shipping Info Message */}
+                {formData.wilaya && (
+                  <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <p className="text-sm text-right text-blue-800">
+                      💡 رسوم التوصيل ل{formData.wilaya}: {' '}
+                      <span className="font-bold">
+                        {formData.deliveryType === 'home' 
+                          ? shippingPrices[formData.wilaya].home 
+                          : shippingPrices[formData.wilaya].office} DA
+                      </span>
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Payment Info */}
@@ -368,7 +461,9 @@ const Checkout = ({ cartItems, onClose, onConfirmOrder }) => {
                   <span className="text-gray-600">المجموع الفرعي</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-green-600">{deliveryFee} DA</span>
+                  <span className={`font-bold ${deliveryFee === 0 ? 'text-gray-400' : 'text-blue-600'}`}>
+                    {deliveryFee > 0 ? `${deliveryFee.toLocaleString()} DA` : 'اختر الولاية'}
+                  </span>
                   <span className="text-gray-600">رسوم التوصيل</span>
                 </div>
                 <div className="flex justify-between items-center pt-3 border-t-2 border-gray-200">
