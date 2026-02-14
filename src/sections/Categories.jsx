@@ -13,7 +13,7 @@ const Categories = ({ onCategoryClick }) => {
       name: 'أحذية رجالية',
       nameEnglish: 'Men Shoes',
       slug: 'men-shoes',
-      image: '../../public/Images/download (20).jpg',
+      image: 'download (20).jpg',
       itemCount: 45
     },
     {
@@ -21,7 +21,7 @@ const Categories = ({ onCategoryClick }) => {
       name: 'أحذية نسائية',
       nameEnglish: 'Women Shoes',
       slug: 'women-shoes',
-      image: '../../public/Images/download (22).jpg',
+      image: 'womenShoes.webp',
       itemCount: 38
     },
     {
@@ -29,7 +29,7 @@ const Categories = ({ onCategoryClick }) => {
       name: 'أحذية أطفال',
       nameEnglish: 'Kids Shoes',
       slug: 'kids-shoes',
-      image: '../../public/Images/download (23).jpg',
+      image: 'KidsShoes.webp',
       itemCount: 28
     },
     {
@@ -37,7 +37,7 @@ const Categories = ({ onCategoryClick }) => {
       name: 'أحذية رياضية',
       nameEnglish: 'Sport Shoes',
       slug: 'sport-shoes',
-      image: '../../public/Images/download (30).webp',
+      image: 'sportshoes.webp',
       itemCount: 52
     },
     {
@@ -45,7 +45,7 @@ const Categories = ({ onCategoryClick }) => {
       name: 'أحذية كاجوال',
       nameEnglish: 'Casual Shoes',
       slug: 'casual-shoes',
-      image: '../../public/Images/download (31).jpg',
+      image: 'casual.webp',
       itemCount: 34
     },
     {
@@ -53,7 +53,7 @@ const Categories = ({ onCategoryClick }) => {
       name: 'أحذية رسمية',
       nameEnglish: 'Formal Shoes',
       slug: 'formal-shoes',
-      image: '../../public/Images/download (35).jpg',
+      image: 'classic.webp',
       itemCount: 24
     },
     {
@@ -61,7 +61,7 @@ const Categories = ({ onCategoryClick }) => {
       name: 'أحذية شتوية',
       nameEnglish: 'Winter Boots',
       slug: 'winter-boots',
-      image: '../../public/Images/download (38).jpg',
+      image: 'Boots.webp',
       itemCount: 19
     },
     {
@@ -69,7 +69,7 @@ const Categories = ({ onCategoryClick }) => {
       name: 'صنادل وشباشب',
       nameEnglish: 'Sandals & Slippers',
       slug: 'sandals-slippers',
-      image: '../../public/Images/download (40).jpg',
+      image: 'download (40).jpg',
       itemCount: 31
     }
   ];
